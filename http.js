@@ -12,23 +12,39 @@ export default {
 			}
 		};
 	},
-	pathBase: function(pathBase) {
+	pathBase: function (pathBase) {
 		path = pathBase + '/api';
 	},
-	get: function(url, hasAuth) {
-		if (hasAuth) {
-			return Axios.get(`${path}${url}`, getAuth());
+	get: function (url, auth) {
+		if (auth) {
+			return Axios.get(`${path}${url}`, auth);
 		}
 		return Axios.get(`${path}${url}`);
 	},
-	post: function(url, obj, hasAuth) {
-		if (hasAuth) {
-			return Axios.post(`${path}${url}`, JSON.parse(JSON.stringify(obj)), getAuth());
+	getBlob: function (url, auth) {
+		if (auth) {
+			auth.responseType = 'blob';
+			return Axios.get(`${path}${url}`, auth);
+		}
+		return Axios.get(`${path}${url}`, {
+			responseType: 'blob'
+		});
+	},
+	post: function (url, obj, auth) {
+		if (auth) {
+			return Axios.post(`${path}${url}`, JSON.parse(JSON.stringify(obj)), auth);
 		}
 		return Axios.post(`${path}${url}`, JSON.parse(JSON.stringify(obj)));
 	},
-	postStr: function(url, str, hasAuth) {
-		if (hasAuth) {
+	postBlob: function (url, obj, auth) {
+		if (auth) {
+			auth.responseType = 'blob';
+			return Axios.post(`${path}${url}`, JSON.parse(JSON.stringify(obj)), auth);
+		}
+		return Axios.post(`${path}${url}`, JSON.parse(JSON.stringify(obj)), { responseType: 'blob' });
+	},
+	postStr: function (url, str, auth) {
+		if (auth) {
 			return Axios.post(
 				`${path}${url}`,
 				str,
@@ -37,7 +53,7 @@ export default {
 						'Content-Type': 'text/plain'
 					}
 				},
-				getAuth()
+				auth
 			);
 		}
 		return Axios.post(`${path}${url}`, str, {
@@ -46,20 +62,20 @@ export default {
 			}
 		});
 	},
-	delete: function(url, obj, hasAuth) {
-		if (hasAuth) {
-			return Axios.delete(`${path}${url}/${obj.id}`, getAuth());
+	delete: function (url, obj, auth) {
+		if (auth) {
+			return Axios.delete(`${path}${url}/${obj.id}`, auth);
 		}
 		return Axios.delete(`${path}${url}/${obj.id}`);
 	},
-	put: function(url, obj, hasAuth) {
-		if (hasAuth) {
+	put: function (url, obj, auth) {
+		if (auth) {
 			return Axios.put(`${path}${url}/${obj.id}`, JSON.parse(JSON.stringify(obj)), auth);
 		}
 		return Axios.put(`${path}${url}/${obj.id}`, JSON.parse(JSON.stringify(obj)));
 	},
-	postFile: function(url, formData, hasAuth) {
-		if (hasAuth) {
+	postFile: function (url, formData, auth) {
+		if (auth) {
 			return Axios.post(
 				`${path}${url}`,
 				formData,
@@ -68,7 +84,7 @@ export default {
 						'Content-Type': 'multipart/form-data'
 					}
 				},
-				getAuth()
+				auth
 			);
 		}
 		return Axios.post(`${path}${url}`, formData, {
