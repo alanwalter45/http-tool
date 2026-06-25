@@ -1,6 +1,6 @@
 {
   "name": "@alanwalter45/tool",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "helper for http, token",
   "main": "main.js",
   "scripts": {
