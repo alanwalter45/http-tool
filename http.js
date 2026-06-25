@@ -12,8 +12,8 @@ export default {
 			}
 		};
 	},
-	pathBase: function (pathBase) {
-		path = pathBase + '/api';
+	setPathBase: function (pathBase, prefix='') {
+		path = `${pathBase}/${prefix?prefix:''}`;
 	},
 	get: function (url, auth) {
 		if (auth) {
